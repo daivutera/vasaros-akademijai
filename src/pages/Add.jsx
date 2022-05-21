@@ -1,5 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Button from '../components/button/Button';
+import Container from '../components/container/Container';
 import Content from '../components/content/Content';
 import Input from '../components/input/Input';
 import dataContext from '../context/dataContext';
@@ -7,15 +8,32 @@ import * as S from './Add.styled';
 
 const Add = () => {
   const dataArrayValue = useContext(dataContext);
+  const [disabledButton, setDisabledButton] = useState(true);
+  const [error, setError] = useState(false);
   const [postDetails, setPostDetails] = useState({
     userId: '',
-    postId: '',
+    id: '',
     title: '',
     body: '',
   });
-  const [error, setError] = useState(true);
+
+  useEffect(() => {
+    CheckIfAllFieldsAreFilledIn();
+  }, [postDetails]);
+
+  function CheckIfAllFieldsAreFilledIn() {
+    setDisabledButton(true);
+    const userId = postDetails.userId;
+    const id = postDetails.id;
+    const title = postDetails.title;
+    const body = postDetails.body;
+    if (userId !== '' && id !== '' && title !== '' && body !== '') {
+      setDisabledButton(false);
+    }
+  }
+
   return (
-    <div>
+    <Container>
       <S.Div>
         <Content>Please add item to the list</Content>
       </S.Div>
@@ -23,7 +41,7 @@ const Add = () => {
         action=''
         onSubmit={async (e) => {
           e.preventDefault();
-          setError(true);
+          setError(false);
           const res = await fetch(
             'https://jsonplaceholder.typicode.com/posts',
             {
@@ -37,9 +55,15 @@ const Add = () => {
           const data = await res.json();
           const dataToAddToState = [data];
           dataArrayValue.setNewAddedDataArray(dataToAddToState);
-          dataArrayValue.setAddedDataArray(dataToAddToState);
+          setError(true);
 
-          setError(false);
+          setPostDetails({
+            userId: '',
+            id: '',
+            title: '',
+            body: '',
+          });
+          e.target.reset();
         }}>
         <Input
           type='number'
@@ -47,18 +71,20 @@ const Add = () => {
           name='userId'
           label='User Id'
           id='userId'
+          value={postDetails.userId}
           handleChange={(userId) => {
             setPostDetails({ ...postDetails, userId });
           }}
         />
         <Input
           type='number'
-          placeholder='Text id'
-          name='textId'
-          label='Text Id'
-          id='textId'
-          handleChange={(textId) => {
-            setPostDetails({ ...postDetails, textId });
+          placeholder='id'
+          name='id'
+          label='id'
+          id='id'
+          value={postDetails.id}
+          handleChange={(id) => {
+            setPostDetails({ ...postDetails, id });
           }}
         />
         <Input
@@ -67,6 +93,7 @@ const Add = () => {
           name='title'
           label='Title'
           id='title'
+          value={postDetails.title}
           handleChange={(title) => {
             setPostDetails({ ...postDetails, title });
           }}
@@ -77,14 +104,16 @@ const Add = () => {
           name='body'
           label='Your text'
           id='body'
+          value={postDetails.body}
           handleChange={(body) => {
             setPostDetails({ ...postDetails, body });
           }}
         />
-        <Button>Submit</Button>
+        <Button disabled={disabledButton}>Submit</Button>
+        {disabledButton && <S.Msgr>Please fill in all required fields</S.Msgr>}
+        {error && <S.Msg>Your post was posted. You can see at Home page</S.Msg>}
       </S.Form>
-      {!error ? <h3>Your post was posted. You can see at Home page</h3> : ''}
-    </div>
+    </Container>
   );
 };
 

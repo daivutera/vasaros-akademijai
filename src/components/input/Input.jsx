@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import * as S from './Input.style';
 
-const Input = ({ handleChange, type, name, placeholder, label, id }) => {
-  const [value, setValue] = useState('');
+const Input = ({ handleChange, type, name, placeholder, label, id, value }) => {
   const onChange = (event) => {
-    setValue(event.target.value);
     handleChange(event.target.value);
   };
   return (
@@ -29,6 +27,7 @@ Input.propTypes = {
   placeholder: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  value: PropTypes.node.isRequired,
 };
 
 export default Input;

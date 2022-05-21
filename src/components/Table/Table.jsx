@@ -6,10 +6,8 @@ import { useNavigate } from 'react-router-dom';
 
 const Table = ({ arr }) => {
   const Navigate = useNavigate();
-  console.log(arr, 'arr');
   function onClick(e) {
     e.preventDefault();
-    console.log('labas');
 
     Navigate({
       pathname: '/singlepost',
@@ -39,6 +37,8 @@ const Table = ({ arr }) => {
   );
 };
 
-Table.propTypes = {};
+Table.propTypes = {
+  arr: PropTypes.array.isRequired,
+};
 
 export default Table;

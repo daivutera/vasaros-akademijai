@@ -2,17 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import Content from '../components/content/Content';
 import dataContext from '../context/dataContext';
 import Container from '../components/container/Container';
-import * as S from './Home.style';
 import Table from '../components/Table/Table';
 
 const TableViewPage = () => {
   const [loading, setLoading] = useState(false);
   const dataArrayValue = useContext(dataContext);
-  const allDataToShow = dataArrayValue.dataArray.concat(
-    dataArrayValue.addedDataArray
+  const allDataToShow = dataArrayValue.addedDataArray.concat(
+    dataArrayValue.dataArray
   );
-  console.log('1', dataArrayValue.dataArray);
-  console.log('2', dataArrayValue.addedDataArray);
   useEffect(() => {
     getDataFromUrl();
   }, []);
@@ -23,8 +20,6 @@ const TableViewPage = () => {
     const dataFromUrl = await fetch(dataUrl);
     const dataJson = await dataFromUrl.json();
     dataArrayValue.setNewDataArray(dataJson);
-    console.log('1', dataArrayValue.dataArray);
-    console.log('2', dataArrayValue.addedDataArray);
     setLoading(false);
 
     if (!dataJson.length) {

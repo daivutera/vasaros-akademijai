@@ -12,17 +12,6 @@ export const Img = styled.img`
   width: 3rem;
   margin-left: 6rem;
 `;
-export const A = styled.a`
-  text-decoration: none;
-  color: #2222db;
-  font-weight: 600;
-  font-size: 1.3rem;
-  padding: 0.5rem 1rem 0rem 1rem;
-  &:last-child {
-    margin-right: 6rem;
-    background: orange;
-  }
-`;
 export const Button = styled.button`
   background: #09949e;
   margin-right: 6rem;

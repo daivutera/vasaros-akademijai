@@ -8,11 +8,9 @@ import * as S from './Home.style';
 const Home = () => {
   const [loading, setLoading] = useState(false);
   const dataArrayValue = useContext(dataContext);
-  const allDataToShow = dataArrayValue.dataArray.concat(
-    dataArrayValue.addedDataArray
+  const allDataToShow = dataArrayValue.addedDataArray.concat(
+    dataArrayValue.dataArray
   );
-  console.log('1', dataArrayValue.dataArray);
-  console.log('2', dataArrayValue.addedDataArray);
   useEffect(() => {
     getDataFromUrl();
   }, []);
@@ -23,8 +21,6 @@ const Home = () => {
     const dataFromUrl = await fetch(dataUrl);
     const dataJson = await dataFromUrl.json();
     dataArrayValue.setNewDataArray(dataJson);
-    console.log('1', dataArrayValue.dataArray);
-    console.log('2', dataArrayValue.addedDataArray);
     setLoading(false);
 
     if (!dataJson.length) {

@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as S from './ListItem.styled';
-import { Navigate, useNavigate } from 'react-router-dom';
-import SinglePostPage from './../../pages/SinglePostPage';
+import { useNavigate } from 'react-router-dom';
 
 const ListItem = ({ userId, postId, title, body }) => {
   const Navigate = useNavigate();
   function onClick(e) {
     e.preventDefault();
-    console.log(postId);
     Navigate({
       pathname: '/singlepost',
       search: `?userId=${postId}`,
